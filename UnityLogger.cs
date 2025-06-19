@@ -6,7 +6,7 @@ namespace Plugins
     public class UnityLogger
     {
         private readonly string loggerName;
-        private readonly Color color;
+        private readonly string hexColor;
         
         private readonly Dictionary<LogType, Color> ColorMap = new()
         {
@@ -21,7 +21,7 @@ namespace Plugins
         public void LogInfo(string message)
         {
             if (Application.isEditor)
-                Debug.Log(TMPRichText.Color($"[{loggerName}] {message}", color));
+                Debug.Log($"<color=#{hexColor}>[{loggerName}] {message}</color>");
         }
 
         public void LogWarning(string message)
@@ -39,7 +39,7 @@ namespace Plugins
         public UnityLogger(string loggerName, LogType logType = LogType.Other)
         {
             this.loggerName = loggerName;
-            color = ColorMap[logType];
+            hexColor = ColorUtility.ToHtmlStringRGBA(ColorMap[logType]);
         }
 
         public enum LogType
